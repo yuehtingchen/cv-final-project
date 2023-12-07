@@ -1,0 +1,35 @@
+\begin{thebibliography}{5}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Singh et~al.(2020)Singh, Wang, Gupta, Goli, Padmanabhan, and Gulyás]{singh20203d}
+Satya~P. Singh, Lipo Wang, Sukrit Gupta, Haveesh Goli, Parasuraman Padmanabhan, and Balázs Gulyás.
+\newblock 3d deep learning on medical images: A review, 2020.
+
+\bibitem[Turkan \& Tek(2022)Turkan and Tek]{turkan2022survey}
+Yasemin Turkan and F.~Boray Tek.
+\newblock A survey on automated diagnosis of alzheimer's disease using optical coherence tomography and angiography, 2022.
+
+\bibitem[Wang et~al.(2022)Wang, Jiao, Liu, Wang, Hao, Zhu, Xu, Xu, Zhang, Jia, Xu, Liao, Zhou, Jiang, Wang, Guo, Yan, Tang, Zhao, and Shen]{https://doi.org/10.1111/cns.13963}
+Xin Wang, Bin Jiao, Hui Liu, Yaqin Wang, Xiaoli Hao, Yuan Zhu, Bei Xu, Huizhuo Xu, Sizhe Zhang, Xiaoliang Jia, Qian Xu, Xinxin Liao, Yafang Zhou, Hong Jiang, Junling Wang, Jifeng Guo, Xinxiang Yan, Beisha Tang, Rongchang Zhao, and Lu~Shen.
+\newblock Machine learning based on optical coherence tomography images as a diagnostic tool for alzheimer's disease.
+\newblock \emph{CNS Neuroscience \& Therapeutics}, 28\penalty0 (12):\penalty0 2206--2217, 2022.
+\newblock \doi{https://doi.org/10.1111/cns.13963}.
+\newblock URL \url{https://onlinelibrary.wiley.com/doi/abs/10.1111/cns.13963}.
+
+\bibitem[Wisely et~al.(2024)Wisely, Richardson, Henao, Robbins, Ma, Wang, Johnson, Liu, Grewal, and Fekrat]{WISELY2024100355}
+C.~Ellis Wisely, Alexander Richardson, Ricardo Henao, Cason~B. Robbins, Justin~P. Ma, Dong Wang, Kim~G. Johnson, Andy~J. Liu, Dilraj~S. Grewal, and Sharon Fekrat.
+\newblock A convolutional neural network using multimodal retinal imaging for differentiation of mild cognitive impairment from normal cognition.
+\newblock \emph{Ophthalmology Science}, 4\penalty0 (1):\penalty0 100355, 2024.
+\newblock ISSN 2666-9145.
+\newblock \doi{https://doi.org/10.1016/j.xops.2023.100355}.
+\newblock URL \url{https://www.sciencedirect.com/science/article/pii/S2666914523000878}.
+
+\bibitem[Yang et~al.(2018)Yang, Rangarajan, and Ranka]{yang2018visual}
+Chengliang Yang, Anand Rangarajan, and Sanjay Ranka.
+\newblock Visual explanations from deep 3d convolutional neural networks for alzheimer's disease classification, 2018.
+
+\end{thebibliography}

@@ -1,0 +1,216 @@
+
+\documentclass{article} % For LaTeX2e
+\usepackage{iclr2021_conference,times}
+
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+\input{math_commands.tex}
+
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}
+
+
+\title{Alzheimer's Disease Prediction using Deep Transfer Learning on Multilayer OCTA Images}
+
+% Authors must not appear in the submitted version. They should be hidden
+% as long as the \iclrfinalcopy macro remains commented out below.
+% Non-anonymous submissions will be rejected without review.
+
+\author{Alice Chen\\
+Department of Computer Science\\
+Columbia University\\
+New York, NY 10025, USA \\
+\texttt{yc3877@columbia.edu} \\
+}
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to \LaTeX{} to determine where to break
+% the lines. Using \AND forces a linebreak at that point. So, if \LaTeX{}
+% puts 3 of 4 authors names on the first line, and the last on the second
+% line, try using \AND instead of \And before the third author name.
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+\begin{document}
+
+
+\maketitle
+
+\begin{abstract}
+Alzheimer's disease stands as a prevalent neurodegenerative disorder typically identified through subjective and time-consuming clinical assessments. The prevailing methods aimed at automating this process predominantly center on the classification of Magnetic Resonance Imaging (MRI) images, which can be costly. This project endeavors to diagnose Alzheimer's disease by utilizing deep learning models applied to Optical Coherence Tomography Angiography (OCTA) images. Despite containing comparatively less information than MRI images, OCTA images offer enhanced accessibility and reduced cost. This project aims to build upon these findings by employing deep learning models to classify multilayer OCTA images. The models used in this project are based on popular classification models: ResNet and VGGNet. The models were trained using transfer learning on the ImageNet dataset and evaluated using five-fold cross validation. The best achieving model was transfer learning on VGG16 with an accuracy of 0.69 and AUC of 0.67. The results of this project are comparable with the results using Machine Learning techniques and demonstrate that deep learning models can be used to classify OCTA multilayer images.
+\end{abstract}
+
+\section{Introduction}
+Alzheimer's disease, a prevalent neurodegenerative disorder, is traditionally diagnosed through subjective and time-consuming clinical assessments. Previous efforts in Alzheimer's Disease Classification primarily centered on Magnetic Resonance Imaging (MRI) images, and many have shown remarkable performance, achieving up to 0.95 accuracy \citep{yang2018visual, singh20203d}. However, this study seeks to diagnose Alzheimer's disease using deep learning models applied to multilayer Optical Coherence Tomography Angiography (OCTA) images, which, despite containing less information than MRI images, offer increased accessibility and reduced cost. Several publications have demonstrated the potential of OCTA images for Alzheimer's Disease diagnosis \citet{turkan2022survey}. Yet, exploration of analogous classification techniques using retinal images remains limited. \citet{WISELY2024100355} incorporated multimodal retinal images with patient data, achieving an AUC of 0.836 with deep learning models. However, reliance solely on OCTA data reduced the model's AUC performance to 0.58, highlighting limitations due to a small and imbalanced dataset. Recent work by \citet{https://doi.org/10.1111/cns.13963} leveraged machine learning models on OCTA images, with XGBoost yielding the highest accuracy of 0.74 and an AUC of 0.69 following an assessment of OCT features' statistical significance.
+
+This project builds upon these findings by employing deep learning models for classifying multilayer OCTA images. Specifically, ResNet and VGGNet-based models, trained using transfer learning on the ImageNet dataset and evaluated via five-fold cross-validation.
+
+\section{Methodology}
+In this section, we will provide more details on the dataset used in this study, the preprocessing steps, and the model architecture.
+\subsection{Data Preprocessing}
+The dataset used was collected from Chang-Gung Medical Foundation and consists of patients with Alzheimer's disease and patients without Alzheimer's disease. The images were taken from both the left and right eye, each eye contains a total of 4 Retina images. We trained each model using each layer individually. Then, we concatenated image of Retina Layer d, r, s. Due to limited number of data, we considered data from different eyes to be a different sample. The total number of samples is 287, with 133 positive examples, and 154 negative examples. The image in each layer is 2D has resolution 400x400. Each image was applied with enhanced contrast by a factor of 2. Since the data consists of data from both the left and right eye, data from the left eye was mirrored so that all images are in the same perspective. All images were cropped at the center to 340x340 to remove metadata at the edge of the images. To reduce noise, a gaussian filter with kernel size 3 was applied to all the images. The images were next normalized to have mean 0.4 and standard deviation 0.5, then resized to 224x224. The dataset was split into 80\% training and 20\% testing. The training set was further split into 80\% training and 20\% validation. Five-fold cross validation was used to evaluate the models. Figure~\ref{fig:layer-images} shows sample images from each of the 4 layers after precprocessing. Note that some images, may contain dark regions or unnatural lines due to errors in the image capturing process.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=300px]{../alld/plots/data_layers.png}
+\end{center}
+\caption{These 4 images illustrate the 4 layers of OCTA images in each sample after preprocessing. Retina d, o, r, s, represent deep, outer retina, choriocapillaries and superficial.}
+\label{fig:layer-images}
+\end{figure}
+
+
+\subsection{Model Architecture}
+Due to the limited data used in this study, we applied transfer learning using models pretrained on the ImageNET dataset. Early stopping was used such that the best model saved was based on the lowest validation loss. All models were implemented using PyTorch.
+
+\subsubsection{Vanilla Convolution Neural Network (CNN)}
+The Vanilla CNN model consists of four convolution blocks, each convolution block consists of a convolution layer with kernel size three, stride one, padding one, followed by a ReLU layer, a max pooling layer with kernel size two, stride two. The convolution blocks are followed by a fully connected layer with 512 hidden units, followed by a ReLU layer and a sigmoid layer. The model was trained using binary cross entropy loss and Adam optimizer with learning rate 1e-5 and batch size 8.
+
+\subsubsection{ResNet}
+We used a ResNet model as the base model and added a fully connected layer and a sigmoid layer at the end of the model to serve as a baseline model for comparison. All models were trained using binary cross entropy loss and Adam optimizer with learning rate 1e-5 and batch size 8. All models were trained with the original ResNet parameters frozen for 5-10 epochs, then trained with all parameters for 5-10 epochs.
+
+\subsubsection{VGGNet}
+We used a VGGNet model as the base model and added an additional classifier consisting of a Dropout Layer, a Linear Layer, a ReLU Layer, another set of Dropout, Linear, ReLU, followed by a Linear Layer to a sigmoid layer. The model was trained using binary cross entropy loss,  Adam optimizer with learning rate 1e-5 and batch size 8. The VGG16 model was trained with the original VGG16 parameters frozen for 5 epochs, then trained with all parameters for 5 epochs. The VGG19 model was trained with the original VGG19 parameters frozen for 10 epochs, then trained with all parameters for 2 epochs.
+
+\section{Results}
+The model was first trained and evaluated on different layers of the OCTA images to understand which layers may be most informative. The data was trained using a Vanilla CNN and a pretrained ResNet18 and ResNet50. The test results are shown in Table~\ref{model-evaluation-table-random} and the training results are shown in Figure~\ref{fig:resnet18-random}. Both ResNET models are able to outperform the Vanilla CNN, which indicates that transfer learning may be beneficial in this scenario. The performance of ResNet18 is better than ResNet50, which is likely due to overfitting. The performance of ResNet18 and ResNet50 both exceed the results from \citet{WISELY2024100355}, likely because the dataset used in this study is larger and better balanced.
+
+\begin{figure}[h]
+   \begin{center}
+   \label{fig:resnet18-random}
+   \includegraphics[width=.30\linewidth]{../plots/resnet18/accuracy.png}
+   \includegraphics[width=.30\linewidth]{../plots/resnet18/precision.png}
+   \includegraphics[width=.30\linewidth]{../plots/resnet18/recall.png}
+   \end{center}
+   \caption{ResNet18 train (blue) and validation (orange) accuracy curve (left) precision curve (center) and recall curve (right) with mean and standard deviation. This model was trained only on the Retina Layer R.}
+   \end{figure}
+
+\begin{table}[h]
+   \caption{Comparison of VanillaCNN, ResNet18 and ResNet50 when trained on different layers of the OCTA image. All values are evaluated on the test set using five-fold Cross Validation. ACC is accuracy, Precision is precision score, Recall is recall score, F1 is F1 score, AUC is area under the receiver operating characteristic (ROC) curve.}
+   \label{model-evaluation-table-random}
+   \begin{center}
+   \begin{tabular}{llllll}
+   \multicolumn{1}{c}{\bf Model}  &\multicolumn{1}{c}{\bf ACC} &\multicolumn{1}{c}{\bf Precision} &\multicolumn{1}{c}{\bf Recall} &\multicolumn{1}{c}{\bf F1} &\multicolumn{1}{c}{\bf AUC}
+   \\ \hline \\
+   \bf Layer R\\
+   VanillaCNN        &$0.59\pm0.01$ &$0.61\pm0.03$ &$0.31\pm0.05$ &$0.41\pm0.04$ &$0.56\pm0.01$\\
+   ResNet18         &$0.67\pm0.03$ &$0.67\pm0.03$ &$0.59\pm0.06$ &$0.62\pm0.05$ &$\mathbf{0.67\pm0.03}$\\
+   ResNet50         &$0.63\pm0.04$ &$0.63\pm0.06$ &$0.54\pm0.13$ &$0.56\pm0.08$ &$0.62\pm0.04$\\
+   \\ \hline \\
+   \bf Layer D\\
+   VanillaCNN &$0.57\pm0.06$ &$0.56\pm0.12$ &$0.36\pm0.14$ &$0.42\pm0.12$ &$0.56\pm0.06$\\
+   ResNet18   &$0.65\pm0.06$ &$0.65\pm0.08$ &$0.51\pm0.14$ &$0.56\pm0.11$ &$0.64\pm0.06$\\
+   ResNet50   &$0.67\pm0.06$ &$0.68\pm0.10$ &$0.57\pm0.12$ &$0.61\pm0.08$ &$\mathbf{0.66\pm0.06}$\\
+   \\ \hline \\
+   \bf Layer O\\
+   VanillaCNN &$0.59\pm0.08$ &$0.60\pm0.07$ &$0.91\pm0.09$ &$0.72\pm0.05$ &$0.53\pm0.06$\\
+   ResNet18 &$0.65\pm0.07$ &$0.71\pm0.10$ &$0.67\pm0.12$ &$0.68\pm0.09$ &$\mathbf{0.65\pm0.06}$\\
+   ResNet50 &$0.61\pm0.09$ &$0.65\pm0.08$ &$0.65\pm0.12$ &$0.64\pm0.10$ &$0.59\pm0.09$\\
+   \\ \hline \\
+   \bf Layer S\\
+   VanillaCNN &$0.62\pm0.01$ &$0.68\pm0.05$ &$0.36\pm0.10$ &$0.46\pm0.09$ &$0.61\pm0.02$\\
+   ResNet18 &$0.66\pm0.03$ &$0.68\pm0.07$ &$0.50\pm0.10$ &$0.56\pm0.07$ &$\mathbf{0.65\pm0.03}$\\
+   ResNet50 &$0.65\pm0.03$ &$0.65\pm0.06$ &$0.56\pm0.11$ &$0.58\pm0.07$ &${0.65\pm0.02}$\\
+   \end{tabular}
+   \end{center}
+\end{table}
+
+\begin{table}[h]
+   \caption{Comparison of VanillaCNN, ResNet18 and ResNet50 when trained on concatenated R, D, S layers of the OCTA image. All values are evaluated on the test set using five-fold Cross Validation. ACC is accuracy, Precision is precision score, Recall is recall score, F1 is F1 score, AUC is area under the ROC curve.}
+   \label{model-evaluation-table}
+   \begin{center}
+   \begin{tabular}{llllll}
+   \multicolumn{1}{c}{\bf Model}  &\multicolumn{1}{c}{\bf ACC} &\multicolumn{1}{c}{\bf Precision} &\multicolumn{1}{c}{\bf Recall} &\multicolumn{1}{c}{\bf F1} &\multicolumn{1}{c}{\bf AUC}
+   \\ \hline \\
+   VanillaCNN       &$0.63\pm0.06$ &$0.71\pm0.11$ &$0.37\pm0.15$ &$0.45\pm0.14$ &$0.61\pm0.07$\\
+   ResNet18         &$0.68\pm0.07$ &$0.68\pm0.09$ &$0.58\pm0.15$ &$0.62\pm0.11$ &$0.67\pm0.08$\\
+   ResNet50         &$0.67\pm0.06$ &$0.64\pm0.08$ &$0.60\pm0.14$ &$0.61\pm0.10$ &$0.67\pm0.05$\\
+   VGG16            &$0.69\pm0.04$ &$0.73\pm0.06$ &$0.53\pm0.10$ &$0.60\pm0.08$ &$0.67\pm0.05$\\
+   VGG19            &$0.65\pm0.05$ &$0.66\pm0.05$ &$0.49\pm0.17$ &$0.55\pm0.11$ &$0.64\pm0.05$\\
+   \end{tabular}
+   \end{center}
+   \end{table}
+
+From Table~\ref{model-evaluation-table-random}, we noticed that the performance was better on layers R, D and S. Thus, we further trained the model by concatentating all 3 layers of OCTA images. Table~\ref{model-evaluation-table} shows the results from each of the models when trained on data from all 3 layers of OCTA images. ResNet18 shows the best performance among all the models. The performance of ResNet50 is worse than ResNet18, which is likely due to overfitting. The performance of VGG16 and VGG19 are similar, with VGG16 performing slightly better. The performance did not significantly improve compared to using only one layer. This may be due to the fact that each layer's feature is different, and concatenating the layers may not be the best way to combine the features. Future work includes using a weighted average from the results, or first doing feature extraction on each layer, then concatenating the features.
+
+\begin{figure}[h]
+\begin{center}
+\label{fig:resnet18-3layer}
+\includegraphics[width=.30\linewidth]{../3d/plots/resnet18/accuracy.png}
+\includegraphics[width=.30\linewidth]{../3d/plots/resnet18/precision_score.png}
+\includegraphics[width=.30\linewidth]{../3d/plots/resnet18/recall_score.png}
+\end{center}
+\caption{ResNet18 train (blue) and validation (orange) accuracy curve (left) precision curve (center) validation curve (right) with mean and standard deviation. This model was trained on the concatenated Retina Layer d, r, s.}
+\end{figure}
+
+
+
+\section{Conclusion and Future Work}
+Alzheimer's Disease is the most common type of dementia. Traditional methods are often costly and subjective. Classifying Alzheimer's Disease using OCTA images offers a solution that is time and cost effecient. This project demonstrates that deep learning models can be used on OCTA images to successfully classify Alzheimer's Disease with an accuracy of .69. The information from multiple layers also show potential on improving prediction accuracy. The results of this project are comparable with the results using Machine Learning techniques and demonstrate that deep learning models can be used to classify OCTA multilayer images.  Future work includes using a weighted average from the results, or first doing feature extraction on each layer, then concatenating the features. In addition, other deep learning models can be explored such as DenseNet and EffientNET. Lastly, the dataset used in this study is relatively small, future work includes collecting more data to improve the performance of the models.
+
+\section*{Author Contributions Statement}
+A.C. conceived the original idea, developed the methodology, performed the experiments, analyzed the results and wrote the manuscript.
+
+
+\bibliography{iclr2021_conference}
+\bibliographystyle{iclr2021_conference}
+
+\appendix
+\section{Appendix}
+All code can be found at \url{https://github.com/yuehtingchen/cv-final-project}.
+Additional training results can be found below.
+
+\begin{figure}[h]
+   \begin{center}
+   \includegraphics[width=.4\linewidth]{../plots/cnn/loss.png}
+   \includegraphics[width=.4\linewidth]{../plots/cnn/accuracy.png}
+   \includegraphics[width=.4\linewidth]{../plots/cnn/precision.png}
+   \includegraphics[width=.4\linewidth]{../plots/cnn/recall.png}
+   \end{center}
+   \caption{VanillaCNN train (blue) and validation (orange) loss curve (top left), accuracy curve (top right) precision curve (bottom left) validation curve (bottom right) with mean and standard deviation. This model was trained on the Retina Layer R.}
+\end{figure}
+
+\begin{figure}[h]
+   \begin{center}
+   \includegraphics[width=.4\linewidth]{../plots/resnet18/loss.png}
+   \includegraphics[width=.4\linewidth]{../plots/resnet18/accuracy.png}
+   \includegraphics[width=.4\linewidth]{../plots/resnet18/precision.png}
+   \includegraphics[width=.4\linewidth]{../plots/resnet18/recall.png}
+   \end{center}
+   \caption{ResNet18 train (blue) and validation (orange) loss curve (top left), accuracy curve (top right) precision curve (bottom left) validation curve (bottom right) with mean and standard deviation. This model was trained on the Retina Layer R.}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=.4\linewidth]{../3d/plots/cnn/loss.png}
+\includegraphics[width=.4\linewidth]{../3d/plots/cnn/accuracy.png}
+\includegraphics[width=.4\linewidth]{../3d/plots/cnn/precision.png}
+\includegraphics[width=.4\linewidth]{../3d/plots/cnn/recall.png}
+\end{center}
+\caption{Vanilla train (blue) and validation (orange) loss curve (top left), accuracy curve (top right) precision curve (bottom left) validation curve (bottom right) with mean and standard deviation. This model was trained on the concatenated Retina Layer d, r, s.}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=.4\linewidth]{../3d/plots/resnet18/loss.png}
+\includegraphics[width=.4\linewidth]{../3d/plots/resnet18/accuracy.png}
+\includegraphics[width=.4\linewidth]{../3d/plots/resnet18/precision_score.png}
+\includegraphics[width=.4\linewidth]{../3d/plots/resnet18/recall_score.png}
+\end{center}
+\caption{ResNet18 train (blue) and validation (orange) loss curve (top left), accuracy curve (top right) precision curve (bottom left) validation curve (bottom right) with mean and standard deviation. This model was trained on the concatenated Retina Layer d, r, s.}
+\end{figure}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=.4\linewidth]{../3d/plots/resnet50/loss.png}
+\includegraphics[width=.4\linewidth]{../3d/plots/resnet50/accuracy.png}
+\includegraphics[width=.4\linewidth]{../3d/plots/resnet50/precision.png}
+\includegraphics[width=.4\linewidth]{../3d/plots/resnet50/recall.png}
+\end{center}
+\caption{ResNet50 train (blue) and validation (orange) loss curve (top left), accuracy curve (top right) precision curve (bottom left) validation curve (bottom right) with mean and standard deviation. This model was trained on the concatenated Retina Layer d, r, s.}
+\end{figure}
+
+
+\end{document}

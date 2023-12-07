@@ -1,0 +1,53 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{yang2018visual,singh20203d}
+\citation{turkan2022survey}
+\citation{WISELY2024100355}
+\citation{https://doi.org/10.1111/cns.13963}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Methodology}{2}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Data Preprocessing}{2}{subsection.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces These 4 images illustrate the 4 layers of OCTA images in each sample after preprocessing. Retina d, o, r, s, represent deep, outer retina, choriocapillaries and superficial.}}{2}{figure.1}\protected@file@percent }
+\newlabel{fig:layer-images}{{1}{2}{These 4 images illustrate the 4 layers of OCTA images in each sample after preprocessing. Retina d, o, r, s, represent deep, outer retina, choriocapillaries and superficial}{figure.1}{}}
+\citation{WISELY2024100355}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Model Architecture}{3}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Vanilla Convolution Neural Network (CNN)}{3}{subsubsection.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}ResNet}{3}{subsubsection.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.3}VGGNet}{3}{subsubsection.2.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Results}{3}{section.3}\protected@file@percent }
+\newlabel{fig:resnet18-random}{{3}{3}{Results}{section.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces ResNet18 train (blue) and validation (orange) accuracy curve (left) precision curve (center) and recall curve (right) with mean and standard deviation. This model was trained only on the Retina Layer R.}}{3}{figure.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparison of VanillaCNN, ResNet18 and ResNet50 when trained on different layers of the OCTA image. All values are evaluated on the test set using five-fold Cross Validation. ACC is accuracy, Precision is precision score, Recall is recall score, F1 is F1 score, AUC is area under the receiver operating characteristic (ROC) curve.}}{4}{table.1}\protected@file@percent }
+\newlabel{model-evaluation-table-random}{{1}{4}{Comparison of VanillaCNN, ResNet18 and ResNet50 when trained on different layers of the OCTA image. All values are evaluated on the test set using five-fold Cross Validation. ACC is accuracy, Precision is precision score, Recall is recall score, F1 is F1 score, AUC is area under the receiver operating characteristic (ROC) curve}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Comparison of VanillaCNN, ResNet18 and ResNet50 when trained on concatenated R, D, S layers of the OCTA image. All values are evaluated on the test set using five-fold Cross Validation. ACC is accuracy, Precision is precision score, Recall is recall score, F1 is F1 score, AUC is area under the ROC curve.}}{4}{table.2}\protected@file@percent }
+\newlabel{model-evaluation-table}{{2}{4}{Comparison of VanillaCNN, ResNet18 and ResNet50 when trained on concatenated R, D, S layers of the OCTA image. All values are evaluated on the test set using five-fold Cross Validation. ACC is accuracy, Precision is precision score, Recall is recall score, F1 is F1 score, AUC is area under the ROC curve}{table.2}{}}
+\bibdata{iclr2021_conference}
+\bibcite{singh20203d}{{1}{2020}{{Singh et~al.}}{{Singh, Wang, Gupta, Goli, Padmanabhan, and Gulyás}}}
+\bibcite{turkan2022survey}{{2}{2022}{{Turkan \& Tek}}{{Turkan and Tek}}}
+\bibcite{https://doi.org/10.1111/cns.13963}{{3}{2022}{{Wang et~al.}}{{Wang, Jiao, Liu, Wang, Hao, Zhu, Xu, Xu, Zhang, Jia, Xu, Liao, Zhou, Jiang, Wang, Guo, Yan, Tang, Zhao, and Shen}}}
+\bibcite{WISELY2024100355}{{4}{2024}{{Wisely et~al.}}{{Wisely, Richardson, Henao, Robbins, Ma, Wang, Johnson, Liu, Grewal, and Fekrat}}}
+\bibcite{yang2018visual}{{5}{2018}{{Yang et~al.}}{{Yang, Rangarajan, and Ranka}}}
+\bibstyle{iclr2021_conference}
+\newlabel{fig:resnet18-3layer}{{3}{5}{Results}{table.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces ResNet18 train (blue) and validation (orange) accuracy curve (left) precision curve (center) validation curve (right) with mean and standard deviation. This model was trained on the concatenated Retina Layer d, r, s.}}{5}{figure.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Conclusion and Future Work}{5}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A}Appendix}{6}{appendix.A}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces VanillaCNN train (blue) and validation (orange) loss curve (top left), accuracy curve (top right) precision curve (bottom left) validation curve (bottom right) with mean and standard deviation. This model was trained on the Retina Layer R.}}{6}{figure.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces ResNet18 train (blue) and validation (orange) loss curve (top left), accuracy curve (top right) precision curve (bottom left) validation curve (bottom right) with mean and standard deviation. This model was trained on the Retina Layer R.}}{7}{figure.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Vanilla train (blue) and validation (orange) loss curve (top left), accuracy curve (top right) precision curve (bottom left) validation curve (bottom right) with mean and standard deviation. This model was trained on the concatenated Retina Layer d, r, s.}}{7}{figure.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces ResNet18 train (blue) and validation (orange) loss curve (top left), accuracy curve (top right) precision curve (bottom left) validation curve (bottom right) with mean and standard deviation. This model was trained on the concatenated Retina Layer d, r, s.}}{8}{figure.7}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces ResNet50 train (blue) and validation (orange) loss curve (top left), accuracy curve (top right) precision curve (bottom left) validation curve (bottom right) with mean and standard deviation. This model was trained on the concatenated Retina Layer d, r, s.}}{8}{figure.8}\protected@file@percent }
+\gdef \@abspage@last{8}
